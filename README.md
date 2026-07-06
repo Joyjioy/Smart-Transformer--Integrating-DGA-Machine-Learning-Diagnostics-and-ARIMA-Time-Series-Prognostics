@@ -74,29 +74,49 @@ Sistem secara otomatis mengklasifikasikan parameter minyak transformator ke dala
 * **Interfacial Tension (IFT):** Deteksi dini kontaminan polar larut dan lumpur (sludge) (<22 mN/m mengindikasikan Poor).
 * **Inhibitor Content:** Pemantauan cadangan aditif antioksidan (DBPC/DBP); peringatan dini jika turun di bawah 40% dari nilai awal.
 
-### 4.2 Lapis Diagnosis Kegagalan Aktif (Rel 2 - DGA Diagnostics)
+### 4.2 Lapis Diagnosis Kegagalan Aktif (Rel 2 – DGA Diagnostics)
 
-* **Gas Generation Rate (GGR):** Menghitung laju perubahan konsentrasi gas terlarut antar waktu untuk setiap gas utama ($CH_4$, $H_2$, $C_2H_4$, $C_2H_6$, dan $C_2H_2$).
+#### Gas Generation Rate (GGR)
 
-  The Gas Generation Rate (GGR) is calculated as:
+Gas Generation Rate (GGR) digunakan untuk mengukur laju perubahan konsentrasi gas terlarut antar dua waktu pengujian. Perhitungan dilakukan untuk setiap gas utama, yaitu CH₄, H₂, C₂H₄, C₂H₆, dan C₂H₂.
 
-  $$
-  \mathrm{GGR}_{\mathrm{gas}}
-  =
-  \frac{\mathrm{Gas}_{t_2}-\mathrm{Gas}_{t_1}}
-  {t_2-t_1}
-  $$
+\[
+\mathrm{GGR}_{gas}
+=
+\frac{C_{t_2}-C_{t_1}}
+{\Delta t}
+\]
 
-  where:
+dengan
 
-  - $\mathrm{Gas}_{t_1}$ = gas concentration at the initial sampling time
-  - $\mathrm{Gas}_{t_2}$ = gas concentration at the subsequent sampling time
-  - $t_2-t_1$ = time interval between measurements
+\[
+\Delta t=t_2-t_1
+\]
 
-* **Duval Triangle Method 1:** Pemetaan koordinat persentase rasio hidrokarbon ke dalam enam zona kegagalan (PD, D1, D2, T1, T2, dan T3).
+di mana:
 
-* **AI Random Forest Classifier (7 Kelas):** Model klasifikasi probabilistik yang telah dilatih menggunakan data IEEE serta data kegagalan transformator industri untuk menghasilkan diagnosis (`Diagnosis_AI`) beserta tingkat keyakinannya (`Keyakinan_%`).
+- \(C_{t_1}\) = konsentrasi gas pada waktu pengambilan sampel pertama (ppm)
+- \(C_{t_2}\) = konsentrasi gas pada waktu pengambilan sampel berikutnya (ppm)
+- \(\Delta t\) = selang waktu antar pengujian (hari atau bulan)
+- \(\mathrm{GGR}_{gas}\) = laju pembentukan gas (ppm/hari atau ppm/bulan)
 
+Interpretasi nilai GGR dilakukan dengan membandingkan laju kenaikan masing-masing gas terhadap tren historis sehingga sistem dapat mendeteksi percepatan degradasi sebelum konsentrasi gas melampaui ambang batas IEEE C57.104.
+
+---
+
+#### Duval Triangle Method 1
+
+Metode Duval Triangle digunakan untuk memetakan persentase relatif gas CH₄, C₂H₄, dan C₂H₂ ke dalam enam zona kegagalan aktif (PD, D1, D2, T1, T2, dan T3).
+
+---
+
+#### AI Random Forest Classifier
+
+Model Random Forest melakukan klasifikasi probabilistik terhadap tujuh kelas kondisi transformator berdasarkan kombinasi fitur DGA, rasio gas, dan parameter Oil Analysis. Keluaran model meliputi:
+
+- `Diagnosis_AI`
+- `Confidence Score (%)`
+  
 #### 4.3 Lapis Prognosis Masa Depan & RUL (Rel 3 - Predictive Engine)
 * **Proyeksi Tren Longitudinal:** Model memetakan tren historis untuk memprediksi nilai gas dan parameter kimiawi minyak (seperti BDV dan Acidity) di masa depan.
 * **Remaining Useful Life (RUL):** Perhitungan estimasi waktu menuju ambang batas kegagalan kritis (Failure Threshold).
