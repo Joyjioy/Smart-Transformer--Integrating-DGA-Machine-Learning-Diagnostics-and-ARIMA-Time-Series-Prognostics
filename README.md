@@ -84,8 +84,7 @@ The Gas Generation Rate (GGR) is calculated as
 
 $$
 \mathrm{GGR}_{\text{gas}}
-=
-\frac{C_{t_2}-C_{t_1}}
+= \frac{C_{t_2}-C_{t_1}}
 {\Delta t}
 $$
 
