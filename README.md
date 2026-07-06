@@ -78,44 +78,68 @@ Sistem secara otomatis mengklasifikasikan parameter minyak transformator ke dala
 
 #### Gas Generation Rate (GGR)
 
-Gas Generation Rate (GGR) digunakan untuk mengukur laju perubahan konsentrasi gas terlarut antar dua waktu pengujian. Perhitungan dilakukan untuk setiap gas utama, yaitu CH₄, H₂, C₂H₄, C₂H₆, dan C₂H₂.
+Gas Generation Rate (GGR) digunakan untuk mengukur laju perubahan konsentrasi gas terlarut antar dua waktu pengujian. Perhitungan dilakukan untuk setiap gas utama, yaitu **H₂, CH₄, C₂H₆, C₂H₄,** dan **C₂H₂**. Parameter ini berfungsi sebagai indikator dini percepatan degradasi transformator, sehingga tren kenaikan gas dapat dianalisis sebelum konsentrasi gas mencapai ambang batas menurut IEEE C57.104.
 
-\[
-\mathrm{GGR}_{gas}
+The Gas Generation Rate (GGR) is calculated as
+
+$$
+\mathrm{GGR}_{\text{gas}}
 =
 \frac{C_{t_2}-C_{t_1}}
 {\Delta t}
-\]
+$$
 
-dengan
+where
 
-\[
+$$
 \Delta t=t_2-t_1
-\]
+$$
 
-di mana:
+with
 
-- \(C_{t_1}\) = konsentrasi gas pada waktu pengambilan sampel pertama (ppm)
-- \(C_{t_2}\) = konsentrasi gas pada waktu pengambilan sampel berikutnya (ppm)
-- \(\Delta t\) = selang waktu antar pengujian (hari atau bulan)
-- \(\mathrm{GGR}_{gas}\) = laju pembentukan gas (ppm/hari atau ppm/bulan)
+- $C_{t_1}$ : gas concentration at the initial sampling time (ppm)
+- $C_{t_2}$ : gas concentration at the subsequent sampling time (ppm)
+- $\Delta t$ : time interval between two sampling events (days or months)
+- $\mathrm{GGR}_{\text{gas}}$ : Gas Generation Rate (ppm/day or ppm/month)
 
-Interpretasi nilai GGR dilakukan dengan membandingkan laju kenaikan masing-masing gas terhadap tren historis sehingga sistem dapat mendeteksi percepatan degradasi sebelum konsentrasi gas melampaui ambang batas IEEE C57.104.
+A positive GGR indicates continuous gas generation due to active fault development, whereas a negative value generally reflects gas reduction following maintenance activities such as oil filtration or degassing. Therefore, historical maintenance records are incorporated into the analysis to prevent false interpretation of transformer health trends.
 
 ---
 
 #### Duval Triangle Method 1
 
-Metode Duval Triangle digunakan untuk memetakan persentase relatif gas CH₄, C₂H₄, dan C₂H₂ ke dalam enam zona kegagalan aktif (PD, D1, D2, T1, T2, dan T3).
+The Duval Triangle Method is employed to identify active fault types based on the relative proportions of **CH₄**, **C₂H₄**, and **C₂H₂**. The calculated gas percentages are projected onto the Duval Triangle, allowing automatic classification into one of the following fault zones:
+
+- Partial Discharge (PD)
+- Low Energy Discharge (D1)
+- High Energy Discharge (D2)
+- Thermal Fault < 300°C (T1)
+- Thermal Fault 300–700°C (T2)
+- Thermal Fault > 700°C (T3)
+
+This diagnostic layer complements the deterministic evaluation defined in IEEE C57.104 by providing fault localization based on hydrocarbon gas composition.
 
 ---
 
-#### AI Random Forest Classifier
+#### AI Random Forest Classifier (7-Class Diagnosis)
 
-Model Random Forest melakukan klasifikasi probabilistik terhadap tujuh kelas kondisi transformator berdasarkan kombinasi fitur DGA, rasio gas, dan parameter Oil Analysis. Keluaran model meliputi:
+To improve diagnostic reliability, the system incorporates a supervised **Random Forest Classifier** trained using transformer fault datasets derived from IEEE references and industrial historical records.
 
-- `Diagnosis_AI`
-- `Confidence Score (%)`
+The input features include:
+
+- Individual DGA gas concentrations
+- Gas Generation Rate (GGR)
+- Rogers Ratios
+- Duval Triangle coordinates
+- Oil Analysis parameters (BDV, Moisture, Acidity, IFT, and Inhibitor)
+
+The classifier produces:
+
+- **Diagnosis_AI** : predicted transformer fault class
+- **Confidence (%)** : prediction confidence level
+- **Fault Probability Distribution** : probability of each fault category
+
+The AI prediction is not intended to replace IEEE or IEC standards. Instead, it serves as an intelligent decision-support layer that complements deterministic diagnostics through probabilistic pattern recognition and historical trend analysis.
   
 #### 4.3 Lapis Prognosis Masa Depan & RUL (Rel 3 - Predictive Engine)
 * **Proyeksi Tren Longitudinal:** Model memetakan tren historis untuk memprediksi nilai gas dan parameter kimiawi minyak (seperti BDV dan Acidity) di masa depan.
