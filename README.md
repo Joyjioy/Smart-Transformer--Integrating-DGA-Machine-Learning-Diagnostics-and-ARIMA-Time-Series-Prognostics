@@ -48,7 +48,7 @@ Membangun purwarupa (*Proof of Concept / PoC*) **Digital Twin & Predictive Dashb
 ### 3. ARSITEKTUR SISTEM & ALUR KERJA (*WORKFLOW*)
 
 Sistem dirancang dengan alur pemrosesan data linier di dalam ekosistem Microsoft Power BI yang didukung oleh skrip *backend* Python di dalam Power Query:
-
+```
 [Data Lab Excel (Longitudinal)] 
            │
            ▼
@@ -63,7 +63,7 @@ Sistem dirancang dengan alur pemrosesan data linier di dalam ekosistem Microsoft
            │
            ▼
 [Power BI Executive Dashboard] (KPI Card, Duval Chart, Proyeksi RUL, Prescriptive Action)
-
+```
 ### 4. TECHNICAL SPECIFICATIONS & CORE CAPABILITIES
 
 #### 4.1 Lapis Skrining Fisika & Kimiawi (Rel 1 - Standard Compliance)
