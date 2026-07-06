@@ -74,18 +74,28 @@ Sistem secara otomatis mengklasifikasikan parameter minyak transformator ke dala
 * **Interfacial Tension (IFT):** Deteksi dini kontaminan polar larut dan lumpur (sludge) (<22 mN/m mengindikasikan Poor).
 * **Inhibitor Content:** Pemantauan cadangan aditif antioksidan (DBPC/DBP); peringatan dini jika turun di bawah 40% dari nilai awal.
 
-#### 4.2 Lapis Diagnosis Kegagalan Aktif (Rel 2 - DGA Diagnostics)
-* **Gas Generation Rate (GGR):** Menghitung laju perubahan gas terlarut antar waktu ($CH_4, H_2, C_2H_4, C_2H_6, C_2H_2$):
-  The Gas Generation Rate (GGR) is calculated using
+### 4.2 Lapis Diagnosis Kegagalan Aktif (Rel 2 - DGA Diagnostics)
 
-$$
-\mathrm{GGR}_{\mathrm{gas}}
-=
-\frac{\mathrm{Gas}_{t_2}-\mathrm{Gas}_{t_1}}
-{t_2-t_1}
-$$
-* **Duval Triangle Method 1:** Pemetaan koordinat persentase rasio hidrokarbon ke dalam 6 zona kegagalan (PD, D1, D2, T1, T2, T3).
-* **AI Random Forest Classifier (7 Kelas):** Model klasifikasi probabilistik yang telah dilatih dengan data normal IEEE dan data kerusakan trafo industri untuk memetakan tingkat keyakinan diagnosis (`Diagnosis_AI` & `Keyakinan_%`).
+* **Gas Generation Rate (GGR):** Menghitung laju perubahan konsentrasi gas terlarut antar waktu untuk setiap gas utama ($CH_4$, $H_2$, $C_2H_4$, $C_2H_6$, dan $C_2H_2$).
+
+  The Gas Generation Rate (GGR) is calculated as:
+
+  $$
+  \mathrm{GGR}_{\mathrm{gas}}
+  =
+  \frac{\mathrm{Gas}_{t_2}-\mathrm{Gas}_{t_1}}
+  {t_2-t_1}
+  $$
+
+  where:
+
+  - $\mathrm{Gas}_{t_1}$ = gas concentration at the initial sampling time
+  - $\mathrm{Gas}_{t_2}$ = gas concentration at the subsequent sampling time
+  - $t_2-t_1$ = time interval between measurements
+
+* **Duval Triangle Method 1:** Pemetaan koordinat persentase rasio hidrokarbon ke dalam enam zona kegagalan (PD, D1, D2, T1, T2, dan T3).
+
+* **AI Random Forest Classifier (7 Kelas):** Model klasifikasi probabilistik yang telah dilatih menggunakan data IEEE serta data kegagalan transformator industri untuk menghasilkan diagnosis (`Diagnosis_AI`) beserta tingkat keyakinannya (`Keyakinan_%`).
 
 #### 4.3 Lapis Prognosis Masa Depan & RUL (Rel 3 - Predictive Engine)
 * **Proyeksi Tren Longitudinal:** Model memetakan tren historis untuk memprediksi nilai gas dan parameter kimiawi minyak (seperti BDV dan Acidity) di masa depan.
