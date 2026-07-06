@@ -122,29 +122,7 @@ Daftar tanggal dan tindakan perawatan yang pernah dilakukan pada trafo target te
 | **Script Integration** | Power Query Python Script Wrapper | Menjalankan model AI secara lokal langsung di dalam tabel Power BI. |
 
 ---
-
-### 7. IMPLEMENTATION ROADMAP & TIMELINE KERJA PRAKTIK
-Proyek ini direncanakan selesai dalam siklus waktu Kerja Praktik (6–8 Minggu) dengan pembagian fase sebagai berikut:
-
-* **Minggu 1: Penyelarasan Spesifikasi & Akuisisi Data**
-  * Presentasi PRD kepada Mentor Lapangan.
-  * Pengumpulan data riwayat uji lab Excel 1 Trafo target dari database Chandra Asri.
-* **Minggu 2–3: Data Cleaning & Model Enhancement (Python)**
-  * Pembersihan data historis pabrik, penyusunan fungsi rasio temporal, dan komputasi GGR.
-  * Uji coba model AI 7 Kelas dengan data pabrik (Stress Testing & Calibration).
-* **Minggu 4–5: Pengembangan Script Python & Integrasi Power BI**
-  * Penyusunan skrip integrasi Power Query (Python Script Wrapper).
-  * Pembuatan arsitektur visual dasbor Rel 1 (IEEE/IEC), Rel 2 (Duval), dan Rel 3 (AI RUL).
-* **Minggu 6: Validasi Sistem & User Acceptance Test (UAT)**
-  * Uji coba dasbor dengan skenario data historis dan simulasi data abnormal.
-  * Evaluasi kesesuaian output rekomendasi tindakan dengan panduan tim Reliability.
-* **Minggu 7–8: Finalisasi Laporan Kerja Praktik & Handover Proyek**
-  * Penyusunan Bab Evaluasi dan Analisis Hasil pada Laporan KP.
-  * Penyerahan file `.pbix` (Power BI) dan `.pkl` kepada pembimbing lapangan.
-
----
-
-### 8. SUCCESS METRICS (KRITERIA KEBERHASILAN)
+### 7. SUCCESS METRICS (KRITERIA KEBERHASILAN)
 1. **Keakuratan Klasifikasi AI:** Model AI minimal mencapai akurasi >85% dan Recall >95% pada deteksi bahaya kritis (busur api D2 dan panas ekstrem T3) pada uji validasi.
 2. **Kesesuaian Standar:** Dasbor berhasil memisahkan trafo sehat (Normal) dan trafo anomali secara konsisten tanpa menghasilkan alarm palsu (false alarm) pada kondisi gas normal di bawah spesifikasi IEEE C57.104.
 3. **Penerimaan Pengguna (Usability):** Waktu pemrosesan data uji lab baru mulai dari input Excel hingga keluar diagnosis dan estimasi RUL di layar Power BI membutuhkan waktu <10 detik.
