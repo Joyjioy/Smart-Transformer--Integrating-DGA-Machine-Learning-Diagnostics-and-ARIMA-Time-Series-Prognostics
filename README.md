@@ -103,3 +103,43 @@ MVP ini dikembangkan dan diuji menggunakan kumpulan dataset longitudinal (riwaya
 * **Python (Scikit-Learn, Statsmodels, Pandas):** Untuk pembersihan data temporal, penarikan trendline/forecasting, dan penghitungan DP secara *batch processing*. Pengujian skrip lokal menggunakan perintah eksekusi `python`.
 * **Microsoft Power BI:** Untuk implementasi lapisan antarmuka pengguna, pengaturan filter asinkron (DAX), dan penyajian metrik prediksi secara visual.
 * **Standar Industri Referensi:** IEC 61198 (Metode Uji Senyawa Furanic) & IEEE C57.104 (Interpretasi DGA).
+
+## 7. SPESIFIKASI MODEL AI & DIAGNOSIS KELAS
+
+Sistem ini melampirkan file model biner siap pakai (`model_dga_7classes_v2.pkl`) yang bertindak sebagai *inference engine* utama di dalam repositori.
+
+### 7.1 Detail Arsitektur & Pelatihan Model
+* **Algoritma:** Model berbasis klasifikasi multi-kelas (*Multiclass Classification*) yang telah dilatih menggunakan data historis insiden kegagalan transformator di industri.
+* **Fitur Input ($X$):** Menerima tepat 5 fitur berupa nilai konsentrasi gas terlarut dalam satuan ppm secara berurutan: `['H2', 'CH4', 'C2H6', 'C2H4', 'C2H2']`.
+* **Output Label ($Y$):** Menghasilkan prediksi status kondisi trafo yang terbagi ke dalam 7 kelas diagnosis kerusakan fungsional.
+
+### 7.2 Pemetaan 7 Kelas Diagnosis AI
+Model mengklasifikasikan kondisi transformator ke dalam salah satu status berikut berdasarkan karakteristik pola gas hidrokarbonnya:
+
+| Kode Vonis AI | Deskripsi Teknis Kerusakan | Arti & Tindakan Lapangan |
+| :--- | :--- | :--- |
+| **Normal** | *No Fault Detected* | Kondisi minyak isolasi aman, lanjutkan pemantauan rutin. |
+| **PD** | *Partial Discharge* | Gejala korona atau pelepasan muatan sebagian berenergi rendah. |
+| **D1** | *Discharge of Low Energy* | *Sparking* atau percikan listrik berenergi rendah pada komponen dalam. |
+| **D2** | *Discharge of High Energy* | *Arcing* atau busur api listrik berenergi tinggi (Kondisi Kritis). |
+| **T1** | *Thermal Fault ($<300^\circ\text{C}$)* | Overheating lokal tingkat rendah (misal: hambatan kontak sambungan). |
+| **T2** | *Thermal Fault ($300^\circ\text{C} - 700^\circ\text{C}$)* | Overheating tingkat menengah pada inti besi atau belitan trafo. |
+| **T3** | *Thermal Fault ($>700^\circ\text{C}$)* | Overheating ekstrem yang menyebabkan kerusakan parah pada struktur isolasi. |
+
+---
+
+## TATA CARA MENJALANKAN PROYEK DI LOKAL (UNTUK PENGGUNA UMUM)
+
+Agar rekan tim, dosen penguji, atau pengguna umum dapat membuka dan menjalankan file dashboard *Transformer Digital Twin MVP* ini di komputer mereka masing-masing, ikuti panduan langkah demi langkah di bawah ini:
+
+### Langkah 1: Instalasi Aplikasi Power BI Desktop
+1. Dashboard ini membutuhkan aplikasi **Microsoft Power BI Desktop** (Aplikasi ini gratis).
+2. Unduh dan instal aplikasi langsung melalui [Microsoft Store](https://apps.microsoft.com/detail/9ntxr16hnw1t) atau situs resmi [Microsoft Power BI Downloads](https://powerbi.microsoft.com/en-us/downloads/).
+
+### Langkah 2: Instalasi Python & Library Pendukung
+Karena *Prognostic Engine* dashboard ini ditenagai oleh skrip Python, komputer kamu harus memiliki instalasi Python yang aktif:
+1. Unduh dan instal **Python (Disarankan Versi 3.9 hingga 3.11)** melalui [python.org](https://www.python.org/downloads/). *Catatan: Pastikan mencentang pilihan "Add Python.exe to PATH" saat proses instalasi dimulai.*
+2. Buka *Command Prompt* (CMD) atau *Terminal*, lalu instal pustaka data analitik yang dibutuhkan dengan mengetik perintah berikut dan tekan Enter:
+   ```bash
+   pip install pandas numpy joblib scikit-learn statsmodels dateutil
+Langkah 3: Sinkronisasi Jalur File (Path Configuration)
